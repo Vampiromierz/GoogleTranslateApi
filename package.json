@@ -1,0 +1,31 @@
+{
+  "name": "google-translate-api",
+  "version": "0.1.0",
+  "private": true,
+  "author": "Sebastian Drejkarz",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "standard-test": "standard",
+    "standard-fix": "standard --fix"
+  },
+  "dependencies": {
+    "next": "11.1.2",
+    "react": "17.0.2",
+    "react-dom": "17.0.2"
+  },
+  "devDependencies": {
+    "@types/react": "17.0.30",
+    "eslint": "8.0.1",
+    "eslint-config-next": "11.1.2",
+    "standardx": "^7.0.0",
+    "typescript": "4.4.4"
+  },
+  "eslintConfig": {
+    "rules": {
+      
+    }
+  }
+}
