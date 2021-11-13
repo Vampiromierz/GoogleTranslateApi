@@ -9,10 +9,7 @@ type Props = {
 
 export const TranslateBar = ({ translatedData, setToTranslateData }: Props) => {
   return (
-    <div
-    className={styles.translatebar}
-
-    >
+    <div className={styles.translatebar}>
       <TextboxControlled
         label="Tekst do przetłumaczenia"
         onChangeFn={setToTranslateData}

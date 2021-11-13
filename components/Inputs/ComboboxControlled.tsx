@@ -1,15 +1,8 @@
-import {
-  Autocomplete,
-  FormControl,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-  TextField,
-} from "@mui/material"
-import React, { SetStateAction, useEffect, useState } from "react"
+import { Autocomplete, FormControl, TextField } from "@mui/material"
+import React, { useEffect, useState } from "react"
 
 type Props = {
-  menuItems?: Array<{ value: string; label: any }>
+  menuItems?: Array<{ value: string; label: string }>
   label?: string
   passedValue: string
   onChangeFn: (x: string) => void
@@ -23,24 +16,16 @@ const ComboboxControlled = ({
   onChangeFn,
   disableClearable,
 }: Props) => {
-  const [value, setValue] = useState<{ value: string; label: any } | undefined>(
-    menuItems.find(({ value }) => value === passedValue)
-  )
-
-  console.log(
-    "value",
-    value,
-    "item",
-    menuItems[0],
-    "equeal",
-    JSON.stringify(value) === JSON.stringify(menuItems[0])
-  )
+  const [value, setValue] = useState<
+    { value: string; label: string } | undefined
+  >(menuItems.find(({ value }) => value === passedValue))
 
   // standard onChange
   const handleChange = (
     event: any,
-    newValue: { value: string; label: any } | undefined
+    newValue: { value: string; label: string } | undefined
   ) => {
+    console.log(newValue)
     onChangeFn(newValue?.value || "detect")
     setValue(newValue)
   }
@@ -60,7 +45,11 @@ const ComboboxControlled = ({
         onChange={handleChange}
         disableClearable={!!disableClearable}
         id="controllable-states-demo"
-        sx={{ width: 300 }}
+        sx={{ maxWidth: 300, minWidth: 200 }}
+        // custom equal function cuz object based options
+        isOptionEqualToValue={(option, value) =>
+          JSON.stringify(option) === JSON.stringify(value)
+        }
       />
     </FormControl>
   )

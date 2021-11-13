@@ -1,13 +1,12 @@
 import type { GetStaticProps, NextPage } from "next"
 import Head from "next/head"
-import Image from "next/image"
-import { useEffect, useState } from "react"
-import { dataHandler } from "../components/FetchHandlers/dataHandler"
+import { useState } from "react"
 import { translateWatcher } from "../components/FetchHandlers/translateWatcher"
-import useFetcher from "../components/Hooks/useFetcher"
 import { LanguageBar } from "../components/LanguageBar"
 import { TranslateBar } from "../components/TranslateBar"
 import styles from "../styles/Home.module.css"
+import { Email, GitHub } from "@mui/icons-material"
+import { IconContainer } from "../components/IconContainer"
 
 type Props = {
   languages: Array<{ language: string; name: string }>
@@ -28,7 +27,7 @@ const Home: NextPage = (props) => {
     targetLanguage,
     setTranslatedData,
     setSourceLanguage,
-    api_key
+    api_key,
   })
 
   return (
@@ -40,6 +39,15 @@ const Home: NextPage = (props) => {
       </Head>
 
       <main className={styles.main}>
+        <h1 className={styles.title}>Translator językowy!</h1>
+
+        <p className={styles.description}>
+          Wykorzystane technologie:{" "}
+          <code className={styles.code}>
+            React + NextJS, TS, GoogleCloadTranslateApi
+          </code>
+        </p>
+
         <LanguageBar
           {...{
             languages,
@@ -53,16 +61,17 @@ const Home: NextPage = (props) => {
       </main>
 
       <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+        &copy;Sebastian Drejkarz
+        <IconContainer href={"https://github.com/Vampiromierz"} color="black">
+          <GitHub />
+        </IconContainer>
+        <IconContainer
+          href={"sdrejkarz90@gmail.com"}
+          color="blue"
+          mailTo={true}
         >
-          Powered by{" "}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
+          <Email />
+        </IconContainer>
       </footer>
     </div>
   )

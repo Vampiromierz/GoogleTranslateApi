@@ -30,7 +30,7 @@ export const LanguageBar = ({
             { value: "detect", label: "Automatyczne wykrywanie" },
             ...menuItems,
           ],
-          label: "",
+          label: "Język źródłowy",
           passedValue: sourceLanguage,
           onChangeFn: setSourceLanguage,
           disableClearable: false,
@@ -39,7 +39,7 @@ export const LanguageBar = ({
       <ComboboxControlled
         {...{
           menuItems: [...menuItems],
-          label: "",
+          label: "Język docelowy",
           passedValue: targetLanguage,
           onChangeFn: setTargetLanguage,
           disableClearable: true,
