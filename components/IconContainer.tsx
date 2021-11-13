@@ -2,23 +2,26 @@ import Link from "next/link"
 
 type IconProps = {
   children: any
-  href: string
+  href?: string
   mailTo?: Boolean
+  action?: () => void
   color: string
+  cursor?:string
 }
 
 type LinkProps = {
   children: any
   color: string
+  cursor?:string
 }
 
-const LinkContainer = ({ children, color }: LinkProps) => {
+const IconFormatter = ({ children, color, cursor = 'pointer' }: LinkProps) => {
   return (
     <span className="footer-link">
       {children}
       <style jsx>{`
         .footer-link {
-          margin-left: 20px;
+          cursor: ${cursor};
           color: lightgray;
           transition: color 2s;
         }
@@ -31,19 +34,33 @@ const LinkContainer = ({ children, color }: LinkProps) => {
   )
 }
 
-export const IconContainer = ({ children, href, mailTo, color }: IconProps) => {
+export const IconContainer = ({
+  children,
+  href,
+  mailTo,
+  color,
+  action,
+  cursor
+}: IconProps) => {
   if (mailTo)
     return (
-      <a href={`mailto:${href}`}>
-        <LinkContainer {...{ color }}>{children}</LinkContainer>
+      <a href={`mailto:${href}`} style={{ marginLeft: 20 }}>
+        <IconFormatter {...{ color, cursor }}>{children}</IconFormatter>
       </a>
     )
 
+  if (href)
+    return (
+      <Link href={href}>
+        <a style={{ marginLeft: 20 }}>
+          <IconFormatter {...{ color, cursor  }}>{children}</IconFormatter>
+        </a>
+      </Link>
+    )
+
   return (
-    <Link href={href}>
-      <a>
-        <LinkContainer {...{ color }}>{children}</LinkContainer>
-      </a>
-    </Link>
+    <a onClick={action}>
+      <IconFormatter {...{ color, cursor  }}>{children}</IconFormatter>
+    </a>
   )
 }

@@ -1,4 +1,6 @@
+import { CompareArrows } from "@mui/icons-material"
 import { useState } from "react"
+import { IconContainer } from "./IconContainer"
 import ComboboxControlled from "./Inputs/ComboboxControlled"
 
 type Props = {
@@ -22,8 +24,15 @@ export const LanguageBar = ({
     })
   )
 
+  function switchLanguages() {
+    const _targetLanguage = targetLanguage
+    const _sourceLanguage = sourceLanguage
+    setTargetLanguage(_sourceLanguage)
+    setSourceLanguage(_targetLanguage)
+  }
+
   return (
-    <div>
+    <div style={{ display: "flex", alignItems: "center" }}>
       <ComboboxControlled
         {...{
           menuItems: [
@@ -36,6 +45,14 @@ export const LanguageBar = ({
           disableClearable: false,
         }}
       />
+      <IconContainer
+        color="black"
+        action={sourceLanguage !== "detect" ? switchLanguages : undefined}
+        cursor={sourceLanguage === "detect" ? "no-drop" : undefined}
+      >
+        <CompareArrows />
+      </IconContainer>
+
       <ComboboxControlled
         {...{
           menuItems: [...menuItems],

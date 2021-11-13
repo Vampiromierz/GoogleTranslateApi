@@ -16,24 +16,30 @@ const ComboboxControlled = ({
   onChangeFn,
   disableClearable,
 }: Props) => {
-  const [value, setValue] = useState<
-    { value: string; label: string } | undefined
-  >(menuItems.find(({ value }) => value === passedValue))
+  function searchMenuItems(findValue: string) {
+    return menuItems.find(({ value }) => value === findValue)
+  }
+
+  const [value, setValue] = useState(searchMenuItems(passedValue))
 
   // standard onChange
   const handleChange = (
     event: any,
     newValue: { value: string; label: string } | undefined
   ) => {
-    console.log(newValue)
-    onChangeFn(newValue?.value || "detect")
-    setValue(newValue)
+    if (newValue?.value) {
+      onChangeFn(newValue.value)
+      setValue(newValue)
+    } else {
+      onChangeFn("detect")
+      setValue(searchMenuItems("detect"))
+    }
   }
 
   // set the proper value, if passedValue changed state uncontrolled
   useEffect(() => {
     if (value?.value !== passedValue && passedValue !== "detect")
-      setValue(menuItems.find(({ value }) => value === passedValue))
+      setValue(searchMenuItems(passedValue))
   }, [passedValue])
 
   return (
