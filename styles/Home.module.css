@@ -9,6 +9,7 @@
 }
 
 .main {
+  width: 100%;
   padding: 5rem 0;
   flex: 1;
   display: flex;
@@ -31,6 +32,13 @@
   justify-content: center;
   align-items: center;
   flex-grow: 1;
+}
+
+.translatebar {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  margin-top: 30px;
 }
 
 .title a {
