@@ -43,7 +43,7 @@ const ComboboxControlled = ({
   }, [passedValue])
 
   return (
-    <FormControl style={{ margin: "0 15px 0 15px" }}>
+    <FormControl style={{ margin: "15px 15px 15px 15px" }}>
       <Autocomplete
         options={menuItems}
         renderInput={(params) => <TextField {...params} label={label} />}
@@ -51,7 +51,7 @@ const ComboboxControlled = ({
         onChange={handleChange}
         disableClearable={!!disableClearable}
         id="controllable-states-demo"
-        sx={{ maxWidth: 300, minWidth: 200 }}
+        sx={{ width: 250 }}
         // custom equal function cuz object based options
         isOptionEqualToValue={(option, value) =>
           JSON.stringify(option) === JSON.stringify(value)

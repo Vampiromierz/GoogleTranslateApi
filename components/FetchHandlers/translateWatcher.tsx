@@ -2,13 +2,19 @@ import { useEffect, useState } from "react"
 import useFetcher from "../Hooks/useFetcher"
 import { dataHandler } from "./dataHandler"
 
-type StateProps = {
+type TranslateProps = {
   api_key: string
+  state: object
+
+  updateState: (x: string, y: any) => void
+  // setTranslatedData: (x: string) => void
+  // setSourceLanguage: (x: string) => void
+}
+
+type StateProps = {
   toTranslateData: string
   sourceLanguage: string
   targetLanguage: string
-  setTranslatedData: (x: string) => void
-  setSourceLanguage: (x: string) => void
 }
 
 type Data = {
@@ -17,19 +23,20 @@ type Data = {
 }
 
 export function translateWatcher({
-  toTranslateData,
-  sourceLanguage,
-  targetLanguage,
-  setTranslatedData,
-  setSourceLanguage,
+  state,
+  updateState,
   api_key,
-}: StateProps) {
+}: TranslateProps) {
   // state to store lastRequest to prevent app from send the same req twice
   const [lastRequest, setLastRequest] = useState<object>()
 
+  const { toTranslateData, sourceLanguage, targetLanguage } =
+    state as StateProps
+
   function setData({ translatedString, detectedSourceLanguage }: Data) {
-    setTranslatedData(translatedString)
-    if (detectedSourceLanguage) setSourceLanguage(detectedSourceLanguage)
+    updateState("translatedData", translatedString)
+    if (detectedSourceLanguage)
+      updateState("sourceLanguage", detectedSourceLanguage)
 
     setLastRequest({
       toTranslateData,
@@ -76,7 +83,7 @@ export function translateWatcher({
     }
     // if target and source is the same, set translatedData to the same value as toTranslateData
     else if (targetLanguage === sourceLanguage) {
-      setTranslatedData(toTranslateData)
+      updateState("translatedData", toTranslateData)
     }
   }, [toTranslateData, sourceLanguage, targetLanguage])
 }

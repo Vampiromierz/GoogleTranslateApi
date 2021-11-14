@@ -5,4 +5,6 @@ Simple multi translator using:
 4. Third party: Google Translate Api
 
 
-To run application you need to create a ./.env << GOOGLE_API_KEY = YOUR_KEY_HERE
+To run application you need to create a ./.env:
+GOOGLE_API_KEY = YOUR_GOOGLE_API_KEY
+SECRET_KEY = TRANSLATOR

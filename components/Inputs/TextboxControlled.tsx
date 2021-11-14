@@ -5,7 +5,7 @@ import useTimer from "../Hooks/useTimer"
 type Props = {
   passedValue?: string
   label?: string
-  onChangeFn?: React.Dispatch<SetStateAction<string>>
+  onChangeFn?: (x: string) => void
 
   //all other props
   [x: string]: any
