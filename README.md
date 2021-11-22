@@ -1,7 +1,7 @@
 Simple multi translator using:
 1. NextJS 
 2. Typescript
-3. eslint standardx
+3. eslint standard
 4. Third party: Google Translate Api
 5. Self writed middleware
 
