@@ -4,16 +4,15 @@ import { Translator } from "../components/Translator"
 
 type Props = {
   menuItems: Array<{ value: string; label: string }>
-  api_key: string
   secret_key: string
 }
 
 const Home: NextPage = (props) => {
-  const { menuItems, api_key, secret_key } = props as Props
+  const { menuItems, secret_key } = props as Props
 
   return (
     <Layout {...{ secret_key }}>
-      <Translator {...{ menuItems, api_key }} />
+      <Translator {...{ menuItems }} />
     </Layout>
   )
 }
@@ -22,16 +21,33 @@ const Home: NextPage = (props) => {
 export const getStaticProps: GetStaticProps = async (context) => {
   const api_key = process.env.GOOGLE_API_KEY
   const secret_key = process.env.SECRET_KEY
+
+  console.log("server console", api_key, secret_key)
+
   const res = await fetch(
     `https://translation.googleapis.com/language/translate/v2/languages?key=${api_key}`,
     { body: JSON.stringify({ target: "pl" }), method: "POST" }
   )
   const data = await res.json()
 
+  // if (!data || data.error) {
+  // return {
+  //   props: { notFound: true },
+  //   revalidate: 60 * 60, // refetch data every hour if response is invalid
+  // }
+  // }
+
   if (!data || data.error) {
     return {
-      props: { notFound: true },
-      revalidate: 60 * 60, // refetch data every hour if response is invalid
+      props: {
+        menuItems: [
+          { value: "pl", label: "pl - polski" },
+          { value: "en", label: "en - angielski" },
+        ],
+        secret_key,
+        api_key,
+      },
+      revalidate: 60, // refetch data once a minute
     }
   }
 
