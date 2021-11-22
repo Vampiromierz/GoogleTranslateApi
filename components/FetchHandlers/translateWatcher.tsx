@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-import useSWR from "swr"
 import useFetcher from "../Hooks/useFetcher"
 import { dataHandler } from "./dataHandler"
 

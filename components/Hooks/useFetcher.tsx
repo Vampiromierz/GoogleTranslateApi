@@ -1,5 +1,3 @@
-import useSWR from "swr"
-
 type Props = {
   url: string
   body?: object
