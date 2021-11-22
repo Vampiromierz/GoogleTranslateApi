@@ -22,7 +22,8 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const api_key = process.env.GOOGLE_API_KEY
   const secret_key = process.env.SECRET_KEY
 
-  console.log("server console", api_key, secret_key)
+  // console.log for check heroku build and env vars
+  console.log("HEROKU CONSOLE", api_key?.slice(api_key.length-10, api_key.length), secret_key)
 
   const res = await fetch(
     `https://translation.googleapis.com/language/translate/v2/languages?key=${api_key}`,
@@ -37,6 +38,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   // }
   // }
 
+  // return default values if no data
   if (!data || data.error) {
     return {
       props: {
@@ -45,7 +47,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
           { value: "en", label: "en - angielski" },
         ],
         secret_key,
-        api_key,
       },
       revalidate: 60, // refetch data once a minute
     }
@@ -58,7 +59,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   )
 
   return {
-    props: { menuItems, api_key, secret_key },
+    props: { menuItems, secret_key },
     revalidate: 24 * 60 * 60 * 7, // refetch data once a week
   }
 }
