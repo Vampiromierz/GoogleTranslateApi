@@ -6,11 +6,10 @@ import { translateWatcher } from "./FetchHandlers/translateWatcher"
 import useObject from "./Hooks/useObject"
 
 type TranslatorProps = {
-  api_key: string
   menuItems: Array<{ value: string; label: string }>
 }
 
-export const Translator = ({ api_key, menuItems }: TranslatorProps) => {
+export const Translator = ({  menuItems }: TranslatorProps) => {
   const { state, updateState, overrideState } = useObject({
     toTranslateData: "",
     translatedData: "",
@@ -18,7 +17,7 @@ export const Translator = ({ api_key, menuItems }: TranslatorProps) => {
     targetLanguage: "en",
   })
 
-  translateWatcher({ state, updateState, api_key })
+  translateWatcher({ state, updateState })
 
   function switchLanguages() {
     overrideState({

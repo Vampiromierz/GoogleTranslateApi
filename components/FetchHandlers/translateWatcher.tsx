@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react"
+import useSWR from "swr"
 import useFetcher from "../Hooks/useFetcher"
 import { dataHandler } from "./dataHandler"
 
 type TranslateProps = {
-  api_key: string
   state: object
 
   updateState: (x: string, y: any) => void
@@ -22,11 +22,7 @@ type Data = {
   detectedSourceLanguage: string | undefined
 }
 
-export function translateWatcher({
-  state,
-  updateState,
-  api_key,
-}: TranslateProps) {
+export function translateWatcher({ state, updateState }: TranslateProps) {
   // state to store lastRequest to prevent app from send the same req twice
   const [lastRequest, setLastRequest] = useState<object>()
 
@@ -57,7 +53,7 @@ export function translateWatcher({
       const translate = toTranslateData.split("\n")
 
       useFetcher({
-        url: `https://translation.googleapis.com/language/translate/v2?key=${api_key}`,
+        url: "/api/translate",
         body: {
           q: translate,
           target: targetLanguage,
@@ -72,12 +68,16 @@ export function translateWatcher({
 
           // if target and source is the same, set translatedData to the same value as toTranslateData
           // and set the sourceLanguage to the targetLanguage
-          if (error.message.indexOf("Bad language pair") == 0) {
+          if (error.message.indexOf("Bad language pair") == 0)
             setData({
               translatedString: targetLanguage,
               detectedSourceLanguage: toTranslateData,
             })
-          }
+          else
+            setData({
+              translatedString: `--ERROR--\n${error.message}`,
+              detectedSourceLanguage: undefined,
+            })
         }
       })
     }
