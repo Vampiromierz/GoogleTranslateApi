@@ -1,19 +1,21 @@
 import type { NextApiRequest, NextApiResponse } from "next"
+import Cors from "cors"
+import { runMiddleware } from "../../lib/middleware"
 
-//
-// added api middleware to hide Google Api Key on PROD
-//
+// Initializing the cors middleware
+const cors = Cors({
+  methods: ["POST"],
+  origin: true,
+})
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const api_key = process.env.GOOGLE_API_KEY
+  // Run the middleware
+  await runMiddleware(req, res, cors)
 
-  if (req.method !== "POST") {
-    return res
-      .status(400)
-      .json({ success: false, message: "Only POST requests are allowed." })
-  }
+  const api_key = process.env.GOOGLE_API_KEY
 
   const data = await fetch(
     `https://translation.googleapis.com/language/translate/v2?key=${api_key}`,
