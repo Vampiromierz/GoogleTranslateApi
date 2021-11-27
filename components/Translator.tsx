@@ -1,8 +1,7 @@
 import { CompareArrows } from "@mui/icons-material"
-import { useState } from "react"
 import { IconContainer } from "./Containers/IconContainer"
 import { TranslateBoxContainer } from "./Containers/TranslateBoxContainer"
-import { translateWatcher } from "./FetchHandlers/translateWatcher"
+import { useTranslateWatcher } from "./Hooks/useTranslateWatcher"
 import useObject from "./Hooks/useObject"
 
 type TranslatorProps = {
@@ -17,7 +16,7 @@ export const Translator = ({  menuItems }: TranslatorProps) => {
     targetLanguage: "en",
   })
 
-  translateWatcher({ state, updateState })
+  useTranslateWatcher({ state, updateState })
 
   function switchLanguages() {
     overrideState({

@@ -14,5 +14,5 @@ export default function useTimer({ fn, timeout = 1000, triggerValue }: Props) {
     }, timeout)
 
     return () => clearTimeout(timer)
-  }, [triggerValue])
+  }, [triggerValue, timeout])
 }

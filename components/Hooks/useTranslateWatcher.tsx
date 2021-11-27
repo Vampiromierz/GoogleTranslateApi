@@ -1,13 +1,10 @@
-import { useEffect, useState } from "react"
-import useFetcher from "../Hooks/useFetcher"
-import { dataHandler } from "./dataHandler"
+import { useCallback, useEffect, useState } from "react"
+import setFetcher from "../FetchHandlers/setFetcher"
+import { dataHandler } from "../FetchHandlers/dataHandler"
 
 type TranslateProps = {
   state: object
-
   updateState: (x: string, y: any) => void
-  // setTranslatedData: (x: string) => void
-  // setSourceLanguage: (x: string) => void
 }
 
 type StateProps = {
@@ -21,28 +18,33 @@ type Data = {
   detectedSourceLanguage: string | undefined
 }
 
-export function translateWatcher({ state, updateState }: TranslateProps) {
+export function useTranslateWatcher({ state, updateState }: TranslateProps) {
   // state to store lastRequest to prevent app from send the same req twice
-  const [lastRequest, setLastRequest] = useState<object>()
+  const [lastRequest, setLastRequest] = useState({})
 
   const { toTranslateData, sourceLanguage, targetLanguage } =
     state as StateProps
 
-  function setData({ translatedString, detectedSourceLanguage }: Data) {
-    updateState("translatedData", translatedString)
-    if (detectedSourceLanguage)
-      updateState("sourceLanguage", detectedSourceLanguage)
+  const setData = useCallback(
+    ({ translatedString, detectedSourceLanguage }: Data) => {
+      updateState("translatedData", translatedString)
+      if (detectedSourceLanguage)
+        updateState("sourceLanguage", detectedSourceLanguage)
 
-    setLastRequest({
-      toTranslateData,
-      sourceLanguage: detectedSourceLanguage || sourceLanguage,
-    })
-  }
+      setLastRequest({
+        toTranslateData,
+        sourceLanguage: detectedSourceLanguage || sourceLanguage,
+        targetLanguage,
+      })
+    },
+    [toTranslateData, sourceLanguage, targetLanguage, updateState]
+  )
 
   useEffect(() => {
     const isRequestChanged =
       JSON.stringify(lastRequest) !==
-      JSON.stringify({ toTranslateData, sourceLanguage })
+      JSON.stringify({ toTranslateData, sourceLanguage, targetLanguage })
+
     // targetLanguage !== sourceLanguage if to prevent GoogleApi response error
     if (
       isRequestChanged &&
@@ -51,7 +53,7 @@ export function translateWatcher({ state, updateState }: TranslateProps) {
     ) {
       const translate = toTranslateData.split("\n")
 
-      useFetcher({
+      setFetcher({
         url: "/api/translate",
         body: {
           q: translate,
@@ -84,5 +86,5 @@ export function translateWatcher({ state, updateState }: TranslateProps) {
     else if (targetLanguage === sourceLanguage) {
       updateState("translatedData", toTranslateData)
     }
-  }, [toTranslateData, sourceLanguage, targetLanguage])
+  }, [toTranslateData, sourceLanguage, targetLanguage, lastRequest])
 }

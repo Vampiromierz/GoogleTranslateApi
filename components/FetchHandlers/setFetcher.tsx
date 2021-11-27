@@ -4,7 +4,7 @@ type Props = {
   method?: string
 }
 
-export default async function useFetcher({
+export default async function setFetcher({
   url = "",
   body = {},
   method = "POST",
