@@ -5,7 +5,9 @@ import { runMiddleware } from "../../lib/middleware"
 // Initializing the cors middleware
 const cors = Cors({
   methods: ["POST"],
-  origin: true,
+  // origin: true,
+  origin: "https://google-translateapi.herokuapp.com/",
+  credentials: true,
 })
 
 export default async function handler(
@@ -14,6 +16,8 @@ export default async function handler(
 ) {
   // Run the middleware
   await runMiddleware(req, res, cors)
+
+  // console.log(res)
 
   const api_key = process.env.GOOGLE_API_KEY
 
