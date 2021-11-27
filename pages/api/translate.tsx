@@ -2,13 +2,14 @@ import type { NextApiRequest, NextApiResponse } from "next"
 import Cors from "cors"
 import { runMiddleware } from "../../lib/middleware"
 
-var whitelist = ["http://localhost:3000"]
+// crop port
+var whitelist = ["http://localhost:"]
 
 // Initializing the cors middleware
 const cors = Cors({
   methods: ["POST"],
   origin: function (origin, callback) {
-    if (whitelist.indexOf(origin || "") !== -1) {
+    if (whitelist.indexOf(origin?.replace(/(\:)\d+/g, ":") || "") !== -1) {
       callback(null, true)
     } else {
       callback(new Error("Not allowed by CORS"))
