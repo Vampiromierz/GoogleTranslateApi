@@ -6,8 +6,6 @@ Simple multi translator using:
 5. Self writed middleware
 
 
-To run application you need to create a env file ./.env:
-GOOGLE_API_KEY = YOUR_GOOGLE_API_KEY
-SECRET_KEY = TRANSLATOR
+To run application you need to change name of a ./env.test file  to ./.env and pass your Google Cload Api Key
 
 Working project at: https://google-translateapi.herokuapp.com
