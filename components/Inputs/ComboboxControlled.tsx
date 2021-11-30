@@ -9,6 +9,13 @@ type Props = {
   disableClearable: Boolean
 }
 
+function searchMenuItems(
+  findValue: string,
+  menuItems: Array<{ value: string; label: string }>
+) {
+  return menuItems.find(({ value }) => value === findValue)
+}
+
 const ComboboxControlled = ({
   menuItems = [],
   passedValue = "",
@@ -16,11 +23,7 @@ const ComboboxControlled = ({
   onChangeFn,
   disableClearable,
 }: Props) => {
-  function searchMenuItems(findValue: string) {
-    return menuItems.find(({ value }) => value === findValue)
-  }
-
-  const [value, setValue] = useState(searchMenuItems(passedValue))
+  const [value, setValue] = useState(searchMenuItems(passedValue, menuItems))
 
   // standard onChange
   const handleChange = (
@@ -32,15 +35,15 @@ const ComboboxControlled = ({
       setValue(newValue)
     } else {
       onChangeFn("detect")
-      setValue(searchMenuItems("detect"))
+      setValue(searchMenuItems("detect", menuItems))
     }
   }
 
   // set the proper value, if passedValue changed state uncontrolled
   useEffect(() => {
     if (value?.value !== passedValue && passedValue !== "detect")
-      setValue(searchMenuItems(passedValue))
-  }, [passedValue])
+      setValue(searchMenuItems(passedValue, menuItems))
+  }, [passedValue, menuItems])
 
   return (
     <FormControl style={{ margin: "15px 15px 15px 15px" }}>

@@ -22,21 +22,11 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const api_key = process.env.GOOGLE_API_KEY
   const secret_key = process.env.SECRET_KEY
 
-  // console.log for check heroku build and env vars
-  console.log("HEROKU CONSOLE", api_key?.slice(api_key.length-10, api_key.length), secret_key)
-
   const res = await fetch(
     `https://translation.googleapis.com/language/translate/v2/languages?key=${api_key}`,
     { body: JSON.stringify({ target: "pl" }), method: "POST" }
   )
   const data = await res.json()
-
-  // if (!data || data.error) {
-  // return {
-  //   props: { notFound: true },
-  //   revalidate: 60 * 60, // refetch data every hour if response is invalid
-  // }
-  // }
 
   // return default values if no data
   if (!data || data.error) {

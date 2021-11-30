@@ -69,7 +69,7 @@ export const Layout = ({ children, secret_key }: LayoutProps) => {
         break
     }
     setMessage(msg || emptyMessege)
-  }, [password])
+  }, [password, secret_key])
 
   return (
     <div className="container">
