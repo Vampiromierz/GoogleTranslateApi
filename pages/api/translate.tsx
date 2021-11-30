@@ -3,13 +3,20 @@ import Cors from "cors"
 import { runMiddleware } from "../../lib/middleware"
 
 // crop port
-var whitelist = ["http://localhost:"]
+var whitelist = [
+  "http://localhost:",
+  "http://127.0.0.1:",
+  "https://localhost:",
+  "https://127.0.0.1:",
+]
 
 // Initializing the cors middleware
 const cors = Cors({
   methods: ["POST"],
   origin: function (origin, callback) {
-    if (whitelist.indexOf(origin?.replace(/(\:)\d+/g, ":") || "") !== -1) {
+    console.log("HEROKU origin clog", origin)
+    // crop port and all chars after it
+    if (whitelist.indexOf(origin?.replace(/(\:\d+)\S+/g, ":") || "") !== -1) {
       callback(null, true)
     } else {
       callback(new Error("Not allowed by CORS"))
